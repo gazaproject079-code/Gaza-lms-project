@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View, Animated, StyleSheet, Platform } from 'react-native';
 import { Svg, Path, G } from 'react-native-svg';
 
@@ -48,13 +48,27 @@ function buildTriangle(pts) {
 }
 
 // ─── Web: JS-driven 60fps sine wave on real SVG elements ──────────────────────
-const WebFlag = ({ style, opacity }) => {
+const WebFlag = ({ style, opacity, isMobile }) => {
   const flat     = StyleSheet.flatten(style) || {};
-  const bRef     = useRef(null);   // black stripe
-  const wRef     = useRef(null);   // white stripe
-  const gRef     = useRef(null);   // green stripe
-  const rRef     = useRef(null);   // red triangle
-  const sheenRef = useRef(null);   // light sheen gradient element
+  const bRef     = useRef(null);
+  const wRef     = useRef(null);
+  const gRef     = useRef(null);
+  const rRef     = useRef(null);
+  const sheenRef = useRef(null);
+  const containerRef = useRef(null);
+  const [containerSize, setContainerSize] = useState({ w: 375, h: 520 });
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const measure = () => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect && rect.width > 0) setContainerSize({ w: rect.width, h: rect.height });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, [isMobile]);
 
   useEffect(() => {
     let raf;
@@ -69,9 +83,8 @@ const WebFlag = ({ style, opacity }) => {
       if (gRef.current) gRef.current.setAttribute('d', buildStripe(400, 600, pts));
       if (rRef.current) rRef.current.setAttribute('d', buildTriangle(pts));
 
-      // Sheen: light reflection travels with the wave, loops 0→1
       if (sheenRef.current) {
-        const pos = (SPEED * t) % 1.2 - 0.1;   // slight over-travel for smooth loop
+        const pos = (SPEED * t) % 1.2 - 0.1;
         sheenRef.current.setAttribute('x1', pos.toFixed(3));
         sheenRef.current.setAttribute('x2', (pos + 0.38).toFixed(3));
       }
@@ -82,7 +95,7 @@ const WebFlag = ({ style, opacity }) => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const divStyle = {
+  const outerStyle = {
     position:      flat.position  || 'absolute',
     top:           flat.top       ?? 0,
     left:          flat.left      ?? 0,
@@ -96,33 +109,55 @@ const WebFlag = ({ style, opacity }) => {
     pointerEvents: 'none',
   };
 
+  const svgContent = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${VW} ${VH}`}
+      preserveAspectRatio="xMidYMid slice"
+      style={{ width: '100%', height: '100%' }}
+    >
+      <defs>
+        <linearGradient id="pl-sheen" ref={sheenRef} x1="0" y1="0" x2="0.38" y2="0"
+          gradientUnits="objectBoundingBox">
+          <stop offset="0%"   stopColor="white" stopOpacity="0"    />
+          <stop offset="40%"  stopColor="white" stopOpacity="0.13" />
+          <stop offset="60%"  stopColor="white" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="white" stopOpacity="0"    />
+        </linearGradient>
+      </defs>
+      <path ref={bRef} fill={BLACK} />
+      <path ref={wRef} fill={WHITE} />
+      <path ref={gRef} fill={GREEN} />
+      <path ref={rRef} fill={RED}   />
+      <rect x="0" y="0" width={VW} height={VH} fill="url(#pl-sheen)" />
+    </svg>
+  );
+
+  // On mobile: rotate the flag 90° CW so the pole (red triangle base) hangs from the top.
+  // Inner div is sized as (containerH × containerW), rotated with transform-origin top-left,
+  // then shifted right by -100% in rotated space to align into the container bounds.
+  if (isMobile) {
+    const { w, h } = containerSize;
+    return (
+      <div ref={containerRef} style={outerStyle}>
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: h,
+          height: w,
+          transformOrigin: 'top left',
+          transform: 'rotate(90deg) translateY(-100%)',
+        }}>
+          {svgContent}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div style={divStyle}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox={`0 0 ${VW} ${VH}`}
-        preserveAspectRatio="xMidYMid slice"
-        style={{ width: '100%', height: '100%' }}
-      >
-        <defs>
-          {/* Light sheen that sweeps across the cloth with the wave */}
-          <linearGradient id="pl-sheen" ref={sheenRef} x1="0" y1="0" x2="0.38" y2="0"
-            gradientUnits="objectBoundingBox">
-            <stop offset="0%"   stopColor="white" stopOpacity="0"    />
-            <stop offset="40%"  stopColor="white" stopOpacity="0.13" />
-            <stop offset="60%"  stopColor="white" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="white" stopOpacity="0"    />
-          </linearGradient>
-        </defs>
-
-        <path ref={bRef} fill={BLACK} />
-        <path ref={wRef} fill={WHITE} />
-        <path ref={gRef} fill={GREEN} />
-        <path ref={rRef} fill={RED}   />
-
-        {/* Sheen overlay — covers the entire flag area */}
-        <rect x="0" y="0" width={VW} height={VH} fill="url(#pl-sheen)" />
-      </svg>
+    <div ref={containerRef} style={outerStyle}>
+      {svgContent}
     </div>
   );
 };
@@ -176,8 +211,8 @@ const NativeFlag = ({ style, opacity }) => {
 };
 
 // ─── Export ───────────────────────────────────────────────────────────────────
-const PalestineFlagBlob = (props) => Platform.OS === 'web'
-  ? <WebFlag   {...props} />
+const PalestineFlagBlob = ({ isMobile, ...props }) => Platform.OS === 'web'
+  ? <WebFlag isMobile={isMobile} {...props} />
   : <NativeFlag {...props} />;
 
 export default PalestineFlagBlob;

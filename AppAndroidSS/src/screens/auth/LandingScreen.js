@@ -313,14 +313,9 @@ const HeroSection = ({ navigation, theme, isDark, isMobile }) => {
 
   return (
     <View style={[styles.hero, { backgroundColor: isDark ? NAVY : '#F8F9FF' }]}>
-      <PalestineFlagBlob style={styles.heroFlag} opacity={isDark ? 0.13 : 0.09} />
+      <PalestineFlagBlob style={styles.heroFlag} opacity={isDark ? 0.13 : 0.09} isMobile={isMobile} />
 
       <Animated.View style={{ opacity:fadeAnim, transform:[{translateY:slideAnim}], alignItems:'center', zIndex:2, width:'100%' }}>
-        <View style={styles.heroBadge}>
-          <Icon name="sparkles" size={13} color={GREEN} />
-          <Text style={styles.heroBadgeText}>AI-Powered Learning Platform</Text>
-        </View>
-
         <Text style={[
           styles.heroHeadline, { color: theme.colors.textPrimary },
           isMobile && { fontSize:28, lineHeight:36, marginBottom:14 },
@@ -845,8 +840,6 @@ const CTABanner = ({ navigation, isMobile }) => {
   const { isDark } = useTheme();
   return (
   <View style={[styles.ctaBanner, { paddingVertical: isMobile ? 52 : 72 }]}>
-    <PalestineFlagBlob style={styles.ctaBlobLeft}  isDark={isDark} opacity={0.08} />
-    <PalestineFlagBlob style={styles.ctaBlobRight} isDark={isDark} opacity={0.06} />
     <Text style={[styles.ctaTitle, isMobile && { fontSize:24, lineHeight:32 }]}>
       Ready to Start Learning?
     </Text>
