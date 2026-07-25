@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSphere App Icon Preview</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 40px;
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .icon-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        .icon-item h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .icon-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        .icon-preview svg {
+            display: block;
+            margin: 0 auto;
+        }
+        .size-info {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        .instructions h2 {
+            margin-top: 0;
+        }
+        .instructions ol {
+            line-height: 1.8;
+        }
+        .instructions code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 SkillSphere App Icon Preview</h1>
+        
+        <div class="icon-grid">
+            <div class="icon-item">
+                <h3>MDPI (48x48)</h3>
+                <div class="icon-preview">
+                    <svg width="48" height="48" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="1" />
+                                <stop offset="50%" stop-color="#6366f1" stop-opacity="1" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="1" />
+                            </linearGradient>
+                            <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="55" fill="url(#glow1)" />
+                        <path d="M 60 15 A 45 45 0 0 1 105 60" stroke="url(#grad1)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 105 60 A 45 45 0 0 1 60 105" stroke="url(#grad1)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 60 32 A 28 28 0 0 1 88 60" stroke="url(#grad1)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <path d="M 88 60 A 28 28 0 0 1 60 88" stroke="url(#grad1)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <circle cx="60" cy="60" r="5" fill="#ffffff" />
+                        <circle cx="60" cy="30" r="4" fill="url(#grad1)" />
+                        <circle cx="75" cy="40" r="4" fill="url(#grad1)" />
+                        <circle cx="90" cy="55" r="4" fill="url(#grad1)" />
+                        <circle cx="95" cy="70" r="4" fill="url(#grad1)" />
+                        <circle cx="90" cy="85" r="4" fill="url(#grad1)" />
+                        <circle cx="75" cy="95" r="4" fill="url(#grad1)" />
+                        <circle cx="60" cy="90" r="4" fill="url(#grad1)" />
+                        <circle cx="45" cy="80" r="4" fill="url(#grad1)" />
+                        <circle cx="35" cy="65" r="4" fill="url(#grad1)" />
+                        <circle cx="40" cy="50" r="4" fill="url(#grad1)" />
+                        <circle cx="50" cy="40" r="4" fill="url(#grad1)" />
+                        <path d="M 60 60 L 60 30" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 40" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 55" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 95 70" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 85" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 95" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 60 90" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 45 80" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 35 65" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 40 50" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 50 40" stroke="url(#grad1)" stroke-width="2.5" opacity="0.6" />
+                    </svg>
+                </div>
+                <div class="size-info">48 × 48 pixels</div>
+            </div>
+            
+            <div class="icon-item">
+                <h3>HDPI (72x72)</h3>
+                <div class="icon-preview">
+                    <svg width="72" height="72" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="1" />
+                                <stop offset="50%" stop-color="#6366f1" stop-opacity="1" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="1" />
+                            </linearGradient>
+                            <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="55" fill="url(#glow2)" />
+                        <path d="M 60 15 A 45 45 0 0 1 105 60" stroke="url(#grad2)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 105 60 A 45 45 0 0 1 60 105" stroke="url(#grad2)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 60 32 A 28 28 0 0 1 88 60" stroke="url(#grad2)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <path d="M 88 60 A 28 28 0 0 1 60 88" stroke="url(#grad2)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <circle cx="60" cy="60" r="5" fill="#ffffff" />
+                        <circle cx="60" cy="30" r="4" fill="url(#grad2)" />
+                        <circle cx="75" cy="40" r="4" fill="url(#grad2)" />
+                        <circle cx="90" cy="55" r="4" fill="url(#grad2)" />
+                        <circle cx="95" cy="70" r="4" fill="url(#grad2)" />
+                        <circle cx="90" cy="85" r="4" fill="url(#grad2)" />
+                        <circle cx="75" cy="95" r="4" fill="url(#grad2)" />
+                        <circle cx="60" cy="90" r="4" fill="url(#grad2)" />
+                        <circle cx="45" cy="80" r="4" fill="url(#grad2)" />
+                        <circle cx="35" cy="65" r="4" fill="url(#grad2)" />
+                        <circle cx="40" cy="50" r="4" fill="url(#grad2)" />
+                        <circle cx="50" cy="40" r="4" fill="url(#grad2)" />
+                        <path d="M 60 60 L 60 30" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 40" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 55" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 95 70" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 85" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 95" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 60 90" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 45 80" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 35 65" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 40 50" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 50 40" stroke="url(#grad2)" stroke-width="2.5" opacity="0.6" />
+                    </svg>
+                </div>
+                <div class="size-info">72 × 72 pixels</div>
+            </div>
+            
+            <div class="icon-item">
+                <h3>XHDPI (96x96)</h3>
+                <div class="icon-preview">
+                    <svg width="96" height="96" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="1" />
+                                <stop offset="50%" stop-color="#6366f1" stop-opacity="1" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="1" />
+                            </linearGradient>
+                            <radialGradient id="glow3" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="55" fill="url(#glow3)" />
+                        <path d="M 60 15 A 45 45 0 0 1 105 60" stroke="url(#grad3)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 105 60 A 45 45 0 0 1 60 105" stroke="url(#grad3)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 60 32 A 28 28 0 0 1 88 60" stroke="url(#grad3)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <path d="M 88 60 A 28 28 0 0 1 60 88" stroke="url(#grad3)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <circle cx="60" cy="60" r="5" fill="#ffffff" />
+                        <circle cx="60" cy="30" r="4" fill="url(#grad3)" />
+                        <circle cx="75" cy="40" r="4" fill="url(#grad3)" />
+                        <circle cx="90" cy="55" r="4" fill="url(#grad3)" />
+                        <circle cx="95" cy="70" r="4" fill="url(#grad3)" />
+                        <circle cx="90" cy="85" r="4" fill="url(#grad3)" />
+                        <circle cx="75" cy="95" r="4" fill="url(#grad3)" />
+                        <circle cx="60" cy="90" r="4" fill="url(#grad3)" />
+                        <circle cx="45" cy="80" r="4" fill="url(#grad3)" />
+                        <circle cx="35" cy="65" r="4" fill="url(#grad3)" />
+                        <circle cx="40" cy="50" r="4" fill="url(#grad3)" />
+                        <circle cx="50" cy="40" r="4" fill="url(#grad3)" />
+                        <path d="M 60 60 L 60 30" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 40" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 55" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 95 70" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 85" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 95" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 60 90" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 45 80" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 35 65" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 40 50" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 50 40" stroke="url(#grad3)" stroke-width="2.5" opacity="0.6" />
+                    </svg>
+                </div>
+                <div class="size-info">96 × 96 pixels</div>
+            </div>
+            
+            <div class="icon-item">
+                <h3>XXHDPI (144x144)</h3>
+                <div class="icon-preview">
+                    <svg width="144" height="144" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="1" />
+                                <stop offset="50%" stop-color="#6366f1" stop-opacity="1" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="1" />
+                            </linearGradient>
+                            <radialGradient id="glow4" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="55" fill="url(#glow4)" />
+                        <path d="M 60 15 A 45 45 0 0 1 105 60" stroke="url(#grad4)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 105 60 A 45 45 0 0 1 60 105" stroke="url(#grad4)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 60 32 A 28 28 0 0 1 88 60" stroke="url(#grad4)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <path d="M 88 60 A 28 28 0 0 1 60 88" stroke="url(#grad4)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <circle cx="60" cy="60" r="5" fill="#ffffff" />
+                        <circle cx="60" cy="30" r="4" fill="url(#grad4)" />
+                        <circle cx="75" cy="40" r="4" fill="url(#grad4)" />
+                        <circle cx="90" cy="55" r="4" fill="url(#grad4)" />
+                        <circle cx="95" cy="70" r="4" fill="url(#grad4)" />
+                        <circle cx="90" cy="85" r="4" fill="url(#grad4)" />
+                        <circle cx="75" cy="95" r="4" fill="url(#grad4)" />
+                        <circle cx="60" cy="90" r="4" fill="url(#grad4)" />
+                        <circle cx="45" cy="80" r="4" fill="url(#grad4)" />
+                        <circle cx="35" cy="65" r="4" fill="url(#grad4)" />
+                        <circle cx="40" cy="50" r="4" fill="url(#grad4)" />
+                        <circle cx="50" cy="40" r="4" fill="url(#grad4)" />
+                        <path d="M 60 60 L 60 30" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 40" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 55" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 95 70" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 85" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 95" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 60 90" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 45 80" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 35 65" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 40 50" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 50 40" stroke="url(#grad4)" stroke-width="2.5" opacity="0.6" />
+                    </svg>
+                </div>
+                <div class="size-info">144 × 144 pixels</div>
+            </div>
+            
+            <div class="icon-item">
+                <h3>XXXHDPI (192x192)</h3>
+                <div class="icon-preview">
+                    <svg width="192" height="192" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="1" />
+                                <stop offset="50%" stop-color="#6366f1" stop-opacity="1" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="1" />
+                            </linearGradient>
+                            <radialGradient id="glow5" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+                            </radialGradient>
+                        </defs>
+                        <circle cx="60" cy="60" r="55" fill="url(#glow5)" />
+                        <path d="M 60 15 A 45 45 0 0 1 105 60" stroke="url(#grad5)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 105 60 A 45 45 0 0 1 60 105" stroke="url(#grad5)" stroke-width="7" fill="none" stroke-linecap="round" />
+                        <path d="M 60 32 A 28 28 0 0 1 88 60" stroke="url(#grad5)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <path d="M 88 60 A 28 28 0 0 1 60 88" stroke="url(#grad5)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.8" />
+                        <circle cx="60" cy="60" r="5" fill="#ffffff" />
+                        <circle cx="60" cy="30" r="4" fill="url(#grad5)" />
+                        <circle cx="75" cy="40" r="4" fill="url(#grad5)" />
+                        <circle cx="90" cy="55" r="4" fill="url(#grad5)" />
+                        <circle cx="95" cy="70" r="4" fill="url(#grad5)" />
+                        <circle cx="90" cy="85" r="4" fill="url(#grad5)" />
+                        <circle cx="75" cy="95" r="4" fill="url(#grad5)" />
+                        <circle cx="60" cy="90" r="4" fill="url(#grad5)" />
+                        <circle cx="45" cy="80" r="4" fill="url(#grad5)" />
+                        <circle cx="35" cy="65" r="4" fill="url(#grad5)" />
+                        <circle cx="40" cy="50" r="4" fill="url(#grad5)" />
+                        <circle cx="50" cy="40" r="4" fill="url(#grad5)" />
+                        <path d="M 60 60 L 60 30" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 40" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 55" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 95 70" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 90 85" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 75 95" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 60 90" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 45 80" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 35 65" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 40 50" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                        <path d="M 60 60 L 50 40" stroke="url(#grad5)" stroke-width="2.5" opacity="0.6" />
+                    </svg>
+                </div>
+                <div class="size-info">192 × 192 pixels</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>📋 Next Steps</h2>
+            <ol>
+                <li>Convert the SVG files to PNG using one of these methods:
+                    <ul>
+                        <li><strong>Online:</strong> <a href="https://cloudconvert.com/svg-to-png" target="_blank" style="color: #fff; text-decoration: underline;">CloudConvert</a> or <a href="https://convertio.co/svg-png/" target="_blank" style="color: #fff; text-decoration: underline;">Convertio</a></li>
+                        <li><strong>ImageMagick:</strong> <code>node scripts/convert-icons-to-png.js</code></li>
+                        <li><strong>Inkscape:</strong> Command line conversion</li>
+                    </ul>
+                </li>
+                <li>Copy the PNG files to <code>android/app/src/main/res/mipmap-*/</code> folders</li>
+                <li>Create round versions (ic_launcher_round.png) for each size</li>
+                <li>Rebuild the app: <code>npm run android</code></li>
+            </ol>
+            <p style="margin-top: 20px; opacity: 0.9;">
+                <strong>Note:</strong> The icon design features the SkillSphere circuit board/sphere pattern with a blue-to-purple gradient, matching the app's branding.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

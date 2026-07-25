@@ -1,0 +1,16 @@
+{
+  "name": "gazarise-monorepo",
+  "private": true,
+  "workspaces": [
+    "AppAndroidSS"
+  ],
+  "scripts": {
+    "dev": "npm run dev:web",
+    "web": "npm run dev:web",
+    "dev:web": "npm run web:dev --workspace AppAndroidSS",
+    "build": "npm run build:web",
+    "build:web": "npm run build:web --workspace AppAndroidSS && node scripts/sync-web-build.cjs",
+    "backend:dev": "npm run dev --prefix backend",
+    "backend:start": "npm run start --prefix backend"
+  }
+}

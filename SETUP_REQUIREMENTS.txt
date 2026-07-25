@@ -1,0 +1,411 @@
+================================================================================
+                    SKILLSPHERE APP - SETUP REQUIREMENTS
+                    Installed Versions on Your Laptop
+================================================================================
+
+SYSTEM INFORMATION:
+================================================================================
+Operating System: Windows 11 (Build 10.0.26200)
+CPU: Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz (8 cores)
+Memory: 15.88 GB RAM
+
+
+INSTALLED SOFTWARE & VERSIONS:
+================================================================================
+
+1. NODE.JS
+   ----------------------------------
+   Version: 24.5.0
+   Location: C:\nvm4w\nodejs\node.EXE
+   Download: https://nodejs.org/
+
+
+2. NPM (Node Package Manager)
+   ----------------------------------
+   Version: 11.5.1
+   Location: C:\nvm4w\nodejs\npm.CMD
+   (Comes with Node.js installation)
+
+
+3. GIT (Version Control)
+   ----------------------------------
+   Version: 2.51.2.windows.1
+   Download: https://git-scm.com/downloads
+
+
+4. MYSQL DATABASE
+   ----------------------------------
+   Status: HeidiSQL is being used for database management
+   Required Version: MySQL 8.0 or higher
+   Note: MySQL may be running via XAMPP/WAMP or standalone
+   Download: https://dev.mysql.com/downloads/mysql/
+
+
+5. HEIDISQL (Database Management Tool)
+   ----------------------------------
+   Status: Installed (actively used)
+   Download: https://www.heidisql.com/download.php
+
+
+6. WEB BROWSERS INSTALLED:
+   ----------------------------------
+   - Google Chrome: 143.0.7499.170
+   - Microsoft Edge: 140.0.3485.54 (Chromium)
+   - Mozilla Firefox: 146.0.1
+   - Internet Explorer: 11.0.26100.7309
+
+
+BACKEND PACKAGE VERSIONS (Installed):
+================================================================================
+Main Framework & Server:
+- Express.js: 4.22.1
+- Node.js: 24.5.0
+
+Database:
+- MySQL2: 3.16.0
+- Sequelize ORM: 6.37.7
+
+Authentication & Security:
+- JSON Web Token (jsonwebtoken): 9.0.3
+- Bcrypt.js: 2.4.3
+
+Middleware & Utilities:
+- CORS: 2.8.5
+- Dotenv: 16.6.1
+- Express Validator: 7.3.1
+- Multer (File Upload): 2.0.2
+
+Development:
+- Nodemon: 3.1.11
+
+
+FRONTEND PACKAGE VERSIONS (Installed):
+================================================================================
+Core Framework:
+- React: 18.3.1
+- React DOM: 18.3.1
+- React Native: 0.72.17
+- React Native Web: 0.19.13
+
+Build Tools:
+- Webpack: 5.88.2
+- Webpack CLI: 5.1.4
+- Webpack Dev Server: 5.0.4
+
+Webpack Loaders & Plugins:
+- Babel Loader: 9.2.1
+- File Loader: 6.2.0
+- URL Loader: 4.1.1
+- HTML Webpack Plugin: 5.6.5
+- Copy Webpack Plugin: 13.0.1
+
+
+NAVIGATION & UI PACKAGES:
+================================================================================
+- @react-navigation/native: ^6.1.9
+- @react-navigation/stack: ^6.3.20
+- @react-navigation/bottom-tabs: ^6.5.11
+- react-native-paper: ^5.11.1
+- react-native-vector-icons: ^10.0.0
+- react-native-reanimated: ^4.2.1
+- react-native-linear-gradient: ^2.8.3
+- react-native-toast-message: ^2.3.3
+
+
+NOT INSTALLED:
+================================================================================
+- Yarn: Not installed (using npm instead)
+
+
+================================================================================
+                        SETUP INSTRUCTIONS
+================================================================================
+
+STEP 1: VERIFY ALL SOFTWARE IS INSTALLED
+----------------------------------
+✓ Node.js v24.5.0 - INSTALLED
+✓ npm v11.5.1 - INSTALLED
+✓ Git v2.51.2 - INSTALLED
+✓ HeidiSQL - INSTALLED
+✓ MySQL - VERIFY (check if running)
+
+TO CHECK MYSQL:
+- Open HeidiSQL
+- Try connecting to localhost with credentials
+- If connection fails, install MySQL or start MySQL service
+
+
+STEP 2: CREATE DATABASE
+----------------------------------
+1. Open HeidiSQL
+2. Connect to MySQL:
+   - Hostname: localhost
+   - User: root
+   - Password: root (or your MySQL password)
+   - Port: 3306
+
+3. Create new database:
+   - Right-click on left panel
+   - Select "Create new" > "Database"
+   - Name: SkillSphere_Db
+   - Collation: utf8mb4_general_ci
+   - Click OK
+
+
+STEP 3: SETUP BACKEND
+----------------------------------
+1. Open Terminal/Command Prompt
+2. Navigate to backend folder:
+   cd D:\skillsphere\AppAndroidSS\skillsphere_app\skillsphere_app\backend
+
+3. Install backend dependencies:
+   npm install
+
+4. Check .env file (backend\.env):
+   MYSQL_DB=SkillSphere_Db
+   MYSQL_USER=root
+   MYSQL_PASSWORD=root
+   MYSQL_HOST=localhost
+   MYSQL_PORT=3306
+   PORT=5000
+   JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+
+5. Create initial Super Admin account:
+   npm run seed
+
+6. Start backend server:
+   npm run dev
+
+   Expected output:
+   - "Server running on port 5000"
+   - "Database connected successfully"
+
+
+STEP 4: SETUP FRONTEND (WEB APP)
+----------------------------------
+1. Open NEW Terminal/Command Prompt
+2. Navigate to frontend folder:
+   cd D:\skillsphere\AppAndroidSS\skillsphere_app\skillsphere_app\AppAndroidSS
+
+3. Install frontend dependencies:
+   npm install
+
+4. Start web development server:
+   npm run web
+
+   Or for development mode:
+   npm run web:dev
+
+5. Open browser (Chrome 143.x recommended) and go to:
+   http://localhost:8080
+
+
+STEP 5: VERIFY SETUP
+----------------------------------
+1. Backend health check: http://localhost:5000/health
+   Should return: {"status":"OK","message":"Server is running"}
+
+2. Frontend: http://localhost:8080
+
+3. Super Admin Login:
+   Email: skillspheresuperadmin@admin.com
+   Password: skillsphere@123
+
+
+================================================================================
+                    TRANSFERRING TO ANOTHER LAPTOP
+================================================================================
+
+REQUIRED SOFTWARE ON NEW LAPTOP:
+----------------------------------
+1. Node.js v24.5.0 (or v18+)
+   Download: https://nodejs.org/
+
+2. MySQL 8.0+ or XAMPP/WAMP
+   Download: https://dev.mysql.com/downloads/mysql/
+   Or XAMPP: https://www.apachefriends.org/
+
+3. HeidiSQL
+   Download: https://www.heidisql.com/download.php
+
+4. Git (Optional)
+   Download: https://git-scm.com/downloads
+
+
+WHAT TO TRANSFER:
+----------------------------------
+1. Copy entire project folder:
+   skillsphere_app\
+   ├── AppAndroidSS\      (Frontend)
+   ├── backend\           (Backend)
+   └── SETUP_REQUIREMENTS.txt
+
+2. Transfer database:
+   Option A: Export via HeidiSQL
+   - Right-click SkillSphere_Db
+   - Export database as SQL
+   - Import on new laptop
+
+   Option B: Fresh setup
+   - Run "npm run seed" on new laptop
+
+
+EXCLUDE THESE (Will be regenerated):
+----------------------------------
+- AppAndroidSS\node_modules\
+- backend\node_modules\
+- AppAndroidSS\dist\
+- backend\uploads\ (optional - only if needed)
+
+
+ON THE NEW LAPTOP:
+----------------------------------
+1. Install Node.js v24.5.0 (or compatible version)
+2. Install MySQL and HeidiSQL
+3. Copy project folder
+4. Create database in HeidiSQL
+5. Backend folder:
+   npm install
+   npm run seed
+   npm run dev
+6. AppAndroidSS folder (new terminal):
+   npm install
+   npm run web
+
+
+================================================================================
+                        COMMON ISSUES & SOLUTIONS
+================================================================================
+
+ISSUE 1: "npm is not recognized"
+SOLUTION:
+- Reinstall Node.js v24.5.0
+- Restart computer
+- Verify: node --version
+
+
+ISSUE 2: "MySQL connection error"
+SOLUTION:
+- Check MySQL service is running
+- Verify credentials in backend\.env
+- Test connection in HeidiSQL first
+
+
+ISSUE 3: "Port 5000 already in use"
+SOLUTION:
+- Kill process:
+  netstat -ano | findstr :5000
+  taskkill /PID [process_id] /F
+- Or change PORT in backend\.env
+
+
+ISSUE 4: "Port 8080 already in use"
+SOLUTION:
+- Webpack auto-selects next available port
+- Check terminal for actual port number
+
+
+ISSUE 5: "Module not found"
+SOLUTION:
+- Delete node_modules and package-lock.json
+- Run: npm install
+- Restart terminal
+
+
+ISSUE 6: Webpack build errors
+SOLUTION:
+- Clear cache: npm cache clean --force
+- Delete node_modules
+- Run: npm install
+
+
+================================================================================
+                        PACKAGE COMPATIBILITY
+================================================================================
+
+Your system uses:
+- Node.js 24.5.0 (Very recent, may need downgrade for compatibility)
+- Recommended for this app: Node.js v18.x or v20.x LTS
+
+If you encounter issues:
+1. Consider using NVM (Node Version Manager) already at C:\nvm4w\
+2. Switch to Node v18 or v20 LTS version:
+   nvm install 18
+   nvm use 18
+
+
+DATABASE SCHEMA:
+----------------
+Database Name: SkillSphere_Db
+Tables are auto-created by Sequelize on first backend run
+Port: 3306 (MySQL default)
+
+
+================================================================================
+                        RUNNING THE APP DAILY
+================================================================================
+
+EVERY TIME YOU START DEVELOPMENT:
+----------------------------------
+1. Ensure MySQL service is running
+
+2. Terminal 1 - Start Backend:
+   cd D:\skillsphere\AppAndroidSS\skillsphere_app\skillsphere_app\backend
+   npm run dev
+
+3. Terminal 2 - Start Frontend:
+   cd D:\skillsphere\AppAndroidSS\skillsphere_app\skillsphere_app\AppAndroidSS
+   npm run web
+
+4. Open browser: http://localhost:8080
+
+
+TO BUILD FOR PRODUCTION:
+------------------------
+Frontend:
+  cd AppAndroidSS
+  npm run build:web
+  (Creates optimized build in dist\ folder)
+
+
+================================================================================
+                        IMPORTANT URLS & CREDENTIALS
+================================================================================
+
+Backend API: http://localhost:5000
+Frontend Web: http://localhost:8080
+API Health Check: http://localhost:5000/health
+
+Super Admin Login:
+- Email: skillspheresuperadmin@admin.com
+- Password: skillsphere@123
+
+Database:
+- Name: SkillSphere_Db
+- Host: localhost
+- Port: 3306
+- User: root
+- Password: root
+
+
+================================================================================
+                        BROWSER COMPATIBILITY
+================================================================================
+
+Tested on your system:
+✓ Google Chrome 143.x (Recommended)
+✓ Microsoft Edge 140.x
+✓ Mozilla Firefox 146.x
+
+Best Experience: Google Chrome or Edge (Chromium-based)
+
+
+================================================================================
+                            END OF DOCUMENT
+================================================================================
+
+Last Updated: Based on actual installed versions
+System: Windows 11
+Node.js: v24.5.0
+npm: v11.5.1
+Git: v2.51.2.windows.1

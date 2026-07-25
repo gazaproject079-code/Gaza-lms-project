@@ -1,0 +1,240 @@
+================================================================================
+CERTIFICATE AUTO-GENERATION SYSTEM - NEW FILES & MODIFICATIONS
+================================================================================
+Created: January 25, 2026
+Project: SkillSphere Learning Management System
+Feature: Automatic Certificate Generation & Email Delivery
+================================================================================
+
+OVERVIEW
+--------
+This document lists all the new files created and existing files modified
+for implementing the Certificate Auto-Generation System.
+
+Key Features:
+- Auto-generates PDF certificates when students complete 100% of a course
+- Uses @react-pdf/renderer for React-based PDF generation
+- Emails certificate as PDF attachment to student
+- Admin can manage certificate templates (colors, text, signature)
+- Logo is automatically applied from app assets
+- Only Admin signature (removed superadmin signature requirement)
+
+
+================================================================================
+NEW FILES CREATED
+================================================================================
+
+BACKEND - Models
+----------------
+1. backend/models/CertificateTemplate.js
+   - Sequelize model for certificate templates
+   - Fields: name, backgroundImage, adminSignature, primaryColor,
+     secondaryColor, fontFamily, titleText, subtitleText, footerText, isActive
+
+BACKEND - Services
+------------------
+2. backend/services/certificateService.js
+   - React PDF-based certificate generation service
+   - Uses @react-pdf/renderer for PDF creation
+   - Functions: generateCertificatePDF, saveCertificatePDF,
+     generateCertificateNumber, generateAndSaveCertificate
+
+BACKEND - Controllers
+---------------------
+3. backend/controllers/certificateTemplateController.js
+   - CRUD operations for certificate templates
+   - File upload handlers for background and signature images
+   - Certificate preview generation
+   - Certificate statistics
+
+BACKEND - Routes
+----------------
+4. backend/routes/certificateTemplateRoutes.js
+   - API routes for certificate template management
+   - Routes: GET/POST/PUT/DELETE templates, upload images, preview, stats
+
+BACKEND - Assets
+----------------
+5. backend/assets/skillsphere-logo.png
+   - Copy of the SkillSphere logo for certificate generation
+   - Automatically included in all certificates
+
+
+================================================================================
+EXISTING FILES MODIFIED
+================================================================================
+
+BACKEND
+-------
+1. backend/models/index.js
+   - Added CertificateTemplate model import
+   - Added User-CertificateTemplate association
+   - Updated module exports
+
+2. backend/services/emailService.js
+   - Added sendCertificateEmail() function
+   - Sends congratulation email with PDF attachment
+
+3. backend/controllers/progressController.js
+   - Added auto-trigger logic for certificate generation
+   - When progress reaches 100%, generates and emails certificate
+   - Added generateAndSendCertificate() helper function
+
+4. backend/server.js
+   - Added certificateTemplateRoutes import
+   - Registered /api/certificate-templates routes
+
+FRONTEND
+--------
+5. AppAndroidSS/src/services/apiClient.js
+   - Added certificateTemplateAPI object
+   - Functions: getAll, getActive, getById, create, update, activate, delete,
+     getStats, getPreviewUrl, uploadBackground, uploadSignature
+   - Updated default exports
+
+6. AppAndroidSS/src/screens/admin/CertificateManagementScreen.js
+   - Complete rewrite with full functionality
+   - Template management (create, edit, delete, activate)
+   - Image upload (background, admin signature)
+   - Certificate preview
+   - Recent certificates display
+   - Statistics display
+   - Auto-generation settings info
+
+
+================================================================================
+NPM PACKAGES TO INSTALL
+================================================================================
+
+Backend (run in backend folder):
+--------------------------------
+npm install @react-pdf/renderer react
+
+Note: We switched from puppeteer to @react-pdf/renderer for:
+- Lighter package (no Chromium dependency)
+- React-like syntax familiar to the project
+- Faster PDF generation
+- Works without browser dependency
+
+
+================================================================================
+DATABASE CHANGES
+================================================================================
+
+New Table: certificate_templates
+--------------------------------
+The table will be automatically created when the backend starts
+(due to sequelize.sync({ alter: true }))
+
+Columns:
+- id (INT, Primary Key, Auto Increment)
+- name (VARCHAR)
+- backgroundImage (VARCHAR, nullable)
+- adminSignature (VARCHAR, nullable)
+- primaryColor (VARCHAR, default: '#4F46E5')
+- secondaryColor (VARCHAR, default: '#22D3EE')
+- fontFamily (VARCHAR, default: 'Arial, sans-serif')
+- titleText (VARCHAR, default: 'Certificate of Completion')
+- subtitleText (VARCHAR, default: 'This is to certify that')
+- footerText (TEXT, nullable)
+- isActive (BOOLEAN, default: false)
+- createdBy (INT, FK -> users.id)
+- createdAt (DATETIME)
+- updatedAt (DATETIME)
+
+
+================================================================================
+API ENDPOINTS
+================================================================================
+
+Certificate Template Endpoints (Admin only):
+--------------------------------------------
+GET    /api/certificate-templates          - Get all templates
+GET    /api/certificate-templates/active   - Get active template
+GET    /api/certificate-templates/stats    - Get certificate statistics
+GET    /api/certificate-templates/:id      - Get template by ID
+GET    /api/certificate-templates/preview  - Preview with default template
+GET    /api/certificate-templates/preview/:id - Preview specific template
+POST   /api/certificate-templates          - Create new template
+PUT    /api/certificate-templates/:id      - Update template
+PUT    /api/certificate-templates/:id/activate - Set template as active
+DELETE /api/certificate-templates/:id      - Delete template
+POST   /api/certificate-templates/:id/upload/background - Upload background
+POST   /api/certificate-templates/:id/upload/signature  - Upload admin signature
+
+
+================================================================================
+FOLDER STRUCTURE (New/Modified)
+================================================================================
+
+backend/
+├── assets/
+│   └── skillsphere-logo.png          <- NEW (copy from frontend)
+├── models/
+│   ├── CertificateTemplate.js        <- NEW
+│   └── index.js                      <- MODIFIED
+├── controllers/
+│   ├── certificateTemplateController.js <- NEW
+│   └── progressController.js         <- MODIFIED
+├── routes/
+│   └── certificateTemplateRoutes.js  <- NEW
+├── services/
+│   ├── certificateService.js         <- NEW
+│   └── emailService.js               <- MODIFIED
+├── uploads/
+│   ├── certificates/                 <- Auto-created (for PDF storage)
+│   └── templates/                    <- Auto-created (for uploaded images)
+└── server.js                         <- MODIFIED
+
+AppAndroidSS/src/
+├── screens/admin/
+│   └── CertificateManagementScreen.js <- MODIFIED (complete rewrite)
+└── services/
+    └── apiClient.js                  <- MODIFIED
+
+
+================================================================================
+HOW IT WORKS
+================================================================================
+
+1. ADMIN SETUP:
+   - Admin creates a certificate template in the dashboard
+   - Uploads admin signature (optional background image)
+   - Sets template as active
+
+2. STUDENT COMPLETES COURSE:
+   - Student completes all topics in a course (100% progress)
+   - progressController.js detects completion
+   - Auto-generates certificate using active template
+   - Saves PDF to /uploads/certificates/
+   - Creates certificate record in database
+   - Emails certificate PDF to student
+
+3. CERTIFICATE CONTENTS:
+   - SkillSphere logo (automatic from assets)
+   - Student name
+   - Course name
+   - Issue date
+   - Unique certificate ID
+   - Admin signature (if uploaded)
+   - Verification URL
+
+
+================================================================================
+TESTING
+================================================================================
+
+1. Start backend: cd backend && npm start
+2. Create a certificate template in admin dashboard
+3. Upload admin signature
+4. Set template as active
+5. As a student, complete all topics in a course
+6. Certificate should be auto-generated and emailed
+
+Manual testing via API:
+- Use Postman or similar to test /api/certificate-templates endpoints
+
+
+================================================================================
+END OF DOCUMENT
+================================================================================

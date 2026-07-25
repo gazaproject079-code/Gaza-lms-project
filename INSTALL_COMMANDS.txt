@@ -1,0 +1,72 @@
+================================================================================
+CERTIFICATE SYSTEM - INSTALLATION COMMANDS
+================================================================================
+
+BACKEND DEPENDENCIES
+--------------------
+Run these commands in the backend folder:
+
+cd D:\skillsphere\AppAndroidSS\SkillSphere\skillsphere_app\backend
+
+npm install @react-pdf/renderer react sharp
+
+
+================================================================================
+WHAT THESE PACKAGES DO
+================================================================================
+
+1. @react-pdf/renderer
+   - React-based PDF generation library
+   - Creates PDF documents using React components
+   - No browser/Chromium dependency (unlike Puppeteer)
+   - Used to generate certificate PDFs
+
+2. react
+   - Required peer dependency for @react-pdf/renderer
+   - Provides React.createElement for PDF component creation
+
+3. sharp
+   - High-performance image processing library
+   - Used to analyze background image brightness
+   - Automatically adjusts text colors (white on dark, black on light)
+
+
+================================================================================
+AFTER INSTALLATION
+================================================================================
+
+1. Start the backend server:
+   cd backend
+   npm start
+
+2. The database tables will be auto-created (certificate_templates table)
+
+3. Open the admin dashboard and go to Certificate Management
+
+4. Create a certificate template and set it as active
+
+5. Upload admin signature (optional background image)
+
+6. When a student completes 100% of a course, certificate will be:
+   - Auto-generated as PDF
+   - Saved to /uploads/certificates/
+   - Emailed to the student as attachment
+
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+If you get font-related errors:
+npm install @react-pdf/font
+
+If you get image loading errors:
+- Ensure backend/assets/skillsphere-logo.png exists
+- Ensure the image file is a valid PNG
+
+If email sending fails:
+- Check your .env file has correct SMTP settings
+- Verify EMAIL_USER and EMAIL_PASS are set
+
+
+================================================================================
