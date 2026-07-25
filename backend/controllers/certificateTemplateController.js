@@ -1,24 +1,20 @@
 const { CertificateTemplate, User, Certificate, Course, TemplateCourse } = require('../models');
 const { generateCertificatePDF } = require('../services/certificateService');
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
+const { cloudinary, templateStorage } = require('../config/cloudinary');
 
-// Always use local storage
-const { templateStorage } = require('../config/localStorage');
-
-// Helper: delete local file
-const deleteLocalFile = (filePath) => {
+// Helper: delete image from Cloudinary using its public_id extracted from the URL
+const deleteCloudinaryFile = async (fileUrl) => {
   try {
-    if (filePath && filePath.startsWith('/uploads/')) {
-      const fullPath = path.join(__dirname, '..', filePath);
-      if (fs.existsSync(fullPath)) {
-        fs.unlinkSync(fullPath);
-        console.log('✅ Deleted local file:', filePath);
-      }
+    if (!fileUrl || !fileUrl.includes('cloudinary.com')) return;
+    // Extract public_id: everything between /upload/v.../  and the file extension
+    const match = fileUrl.match(/\/upload\/(?:v\d+\/)?(.+)\.[^.]+$/);
+    if (match) {
+      await cloudinary.uploader.destroy(match[1]);
+      console.log('✅ Deleted Cloudinary file:', match[1]);
     }
   } catch (e) {
-    console.log('Could not delete local file:', e.message);
+    console.log('Could not delete Cloudinary file:', e.message);
   }
 };
 
@@ -369,25 +365,23 @@ exports.uploadBackground = [
 
       const template = await CertificateTemplate.findByPk(id);
 
-      // Local storage path
-      const fileUrl = `/uploads/templates/${req.file.filename}`;
+      // Cloudinary returns the CDN URL in req.file.path
+      const fileUrl = req.file.path;
 
       if (!template) {
-        // Delete the uploaded file
-        deleteLocalFile(fileUrl);
+        await deleteCloudinaryFile(fileUrl);
         return res.status(404).json({ error: 'Template not found' });
       }
 
-      // Delete old background if exists
+      // Delete old background from Cloudinary if exists
       if (template.backgroundImage) {
-        deleteLocalFile(template.backgroundImage);
+        await deleteCloudinaryFile(template.backgroundImage);
       }
 
-      // Store file URL
       template.backgroundImage = fileUrl;
       await template.save();
 
-      console.log('✅ Background uploaded (Local):', fileUrl);
+      console.log('✅ Background uploaded to Cloudinary:', fileUrl);
 
       res.json({
         success: true,
@@ -414,24 +408,23 @@ exports.uploadAdminSignature = [
 
       const template = await CertificateTemplate.findByPk(id);
 
-      // Local storage path
-      const fileUrl = `/uploads/templates/${req.file.filename}`;
+      // Cloudinary returns the CDN URL in req.file.path
+      const fileUrl = req.file.path;
 
       if (!template) {
-        deleteLocalFile(fileUrl);
+        await deleteCloudinaryFile(fileUrl);
         return res.status(404).json({ error: 'Template not found' });
       }
 
-      // Delete old signature if exists
+      // Delete old signature from Cloudinary if exists
       if (template.adminSignature) {
-        deleteLocalFile(template.adminSignature);
+        await deleteCloudinaryFile(template.adminSignature);
       }
 
-      // Store file URL
       template.adminSignature = fileUrl;
       await template.save();
 
-      console.log('✅ Signature uploaded (Local):', fileUrl);
+      console.log('✅ Signature uploaded to Cloudinary:', fileUrl);
 
       res.json({
         success: true,

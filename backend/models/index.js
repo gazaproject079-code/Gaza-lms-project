@@ -19,6 +19,7 @@ const Todo = require('./Todo');
 const LibraryItem = require('./LibraryItem');
 const ForumChannel = require('./ForumChannel');
 const ForumMessage = require('./ForumMessage');
+const ChannelRead = require('./ChannelRead');
 const Sponsorship = require('./Sponsorship');
 const StudentUpload = require('./StudentUpload');
 const LiveLecture = require('./LiveLecture');
@@ -170,4 +171,5 @@ module.exports = {
   StudentUpload,
   LiveLecture,
   Recording,
+  ChannelRead,
 };

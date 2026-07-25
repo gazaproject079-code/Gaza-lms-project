@@ -1,4 +1,4 @@
-const { ForumChannel, ForumMessage, User } = require('../models');
+const { ForumChannel, ForumMessage, User, ChannelRead } = require('../models');
 const { Op } = require('sequelize');
 
 exports.getChannels = async (req, res) => {
@@ -214,7 +214,19 @@ exports.getDirectChannels = async (req, res) => {
       const otherUser = await UserModel.findByPk(otherUserId, {
         attributes: ['id', 'name', 'email', 'role', 'profilePicture']
       });
-      return { ...ch.toJSON(), otherUser };
+
+      // Count messages from the other user that arrived after this user last read the channel
+      const readRecord = await ChannelRead.findOne({ where: { userId, channelId: ch.id } });
+      const lastReadAt = readRecord ? readRecord.lastReadAt : new Date(0);
+      const unreadCount = await ForumMessage.count({
+        where: {
+          channelId: ch.id,
+          senderId: { [Op.ne]: userId },
+          createdAt: { [Op.gt]: lastReadAt },
+        },
+      });
+
+      return { ...ch.toJSON(), otherUser, unreadCount };
     }));
 
     res.json(enriched);
@@ -293,5 +305,18 @@ exports.getStudentsForInstructor = async (req, res) => {
   } catch (error) {
     console.error('Error fetching students:', error);
     res.status(500).json({ error: 'Failed to fetch students' });
+  }
+};
+
+// Mark a channel as read (upsert lastReadAt = now)
+exports.markChannelRead = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const channelId = parseInt(req.params.channelId, 10);
+    await ChannelRead.upsert({ userId, channelId, lastReadAt: new Date() });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error marking channel read:', error);
+    res.status(500).json({ error: 'Failed to mark channel as read' });
   }
 };

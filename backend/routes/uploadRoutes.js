@@ -1,47 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const { generalStorage } = require('../config/cloudinary');
 
-// Always use local storage
-const { generalStorage } = require('../config/localStorage');
-
-// File filter to accept only PDFs and images
+// Accept PDFs, images, and videos
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
-  if (allowedTypes.includes(file.mimetype)) {
+  const allowed = [
+    'application/pdf',
+    'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp',
+    'video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo',
+  ];
+  if (allowed.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid file type. Only PDF and images are allowed.'), false);
+    cb(new Error('Invalid file type. Allowed: PDF, images, and videos.'), false);
   }
 };
 
 const upload = multer({
   storage: generalStorage,
-  fileFilter: fileFilter,
-  limits: {
-    fileSize: 10 * 1024 * 1024 // 10MB max file size
-  }
+  fileFilter,
+  limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB (covers large videos)
 });
 
-// Upload single file
+// Upload single file → returns Cloudinary URL
 router.post('/file', upload.single('file'), (req, res) => {
   try {
-    console.log('📤 File upload request received');
-
     if (!req.file) {
-      console.log('❌ No file in request');
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // Local storage path
-    const fileUrl = `/uploads/${req.file.filename}`;
+    // Cloudinary puts the public CDN URL in req.file.path
+    const fileUrl = req.file.path;
 
-    console.log('✅ File uploaded successfully:');
-    console.log('   - Original name:', req.file.originalname);
-    console.log('   - URL:', fileUrl);
-    console.log('   - Size:', req.file.size, 'bytes');
-    console.log('   - Type:', req.file.mimetype);
-    console.log('   - Storage: Local');
+    console.log('✅ File uploaded to Cloudinary:', fileUrl);
 
     res.json({
       success: true,
@@ -49,8 +41,8 @@ router.post('/file', upload.single('file'), (req, res) => {
         url: fileUrl,
         filename: req.file.originalname,
         size: req.file.size,
-        mimetype: req.file.mimetype
-      }
+        mimetype: req.file.mimetype,
+      },
     });
   } catch (error) {
     console.error('❌ Upload error:', error);
@@ -58,7 +50,7 @@ router.post('/file', upload.single('file'), (req, res) => {
   }
 });
 
-// Upload multiple files
+// Upload multiple files → returns array of Cloudinary URLs
 router.post('/files', upload.array('files', 10), (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -66,18 +58,15 @@ router.post('/files', upload.array('files', 10), (req, res) => {
     }
 
     const files = req.files.map(file => ({
-      url: `/uploads/${file.filename}`,
+      url: file.path,         // Cloudinary CDN URL
       filename: file.originalname,
       size: file.size,
-      mimetype: file.mimetype
+      mimetype: file.mimetype,
     }));
 
-    console.log(`✅ ${files.length} files uploaded (Local)`);
+    console.log(`✅ ${files.length} files uploaded to Cloudinary`);
 
-    res.json({
-      success: true,
-      files: files
-    });
+    res.json({ success: true, files });
   } catch (error) {
     console.error('Upload error:', error);
     res.status(500).json({ error: 'File upload failed' });

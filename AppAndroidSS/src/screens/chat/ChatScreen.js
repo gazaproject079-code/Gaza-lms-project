@@ -150,8 +150,13 @@ const ChatScreen = ({ navigation }) => {
       setAllMyChannels(channels || []);
 
       const map = {};
-      (channels || []).forEach(c => { if (c.otherUser?.id) map[c.id] = c.otherUser.id; });
+      const initialUnread = {};
+      (channels || []).forEach(c => {
+        if (c.otherUser?.id) map[c.id] = c.otherUser.id;
+        if (c.unreadCount > 0) initialUnread[c.id] = c.unreadCount;
+      });
       channelMapRef.current = map;
+      setUnreadCounts(initialUnread);
 
       if (isInstructor) {
         const [peers, sponsors] = await Promise.all([
@@ -199,6 +204,8 @@ const ChatScreen = ({ navigation }) => {
       socketRef.current?.emit('joinChannel', channel.id);
       const msgs = await api.get(`/forum/channels/${channel.id}/messages`);
       setMessages(msgs || []);
+      // Persist "read" so unread count resets even after logout/login
+      api.post(`/forum/channels/${channel.id}/read`).catch(() => {});
       setTimeout(() => scrollRef.current?.scrollToEnd({ animated: false }), 100);
     } catch {
       Toast.show({ type: 'error', text1: 'Failed to open conversation' });
@@ -286,35 +293,31 @@ const ChatScreen = ({ navigation }) => {
 
   // ── Tabs config ──────────────────────────────────────────────────────────────
 
+  // Helper: sum unread counts across all channels with a given other-user id
+  const unreadForUser = (userId) =>
+    allMyChannels
+      .filter(c => c.otherUser?.id === userId)
+      .reduce((s, c) => s + (unreadCounts[c.id] || 0), 0);
+
   const tabs = (() => {
-    const studentsUnread = studentChannels.reduce((s, c) => s + (unreadCounts[c.id] || 0), 0);
-    const peersUnread = peerList.reduce((s, p) => {
-      const chId = Object.entries(channelMapRef.current).find(([, uid]) => uid === p.id)?.[0];
-      return s + (chId ? (unreadCounts[chId] || 0) : 0);
-    }, 0);
-    const sponsorsUnread = sponsorList.reduce((s, sp) => {
-      const chId = Object.entries(channelMapRef.current).find(([, uid]) => uid === sp.id)?.[0];
-      return s + (chId ? (unreadCounts[chId] || 0) : 0);
-    }, 0);
-    const teachersUnread = instructorList.reduce((s, ins) => {
-      return s + allMyChannels
-        .filter(c => c.otherUser?.id === ins.id)
-        .reduce((ss, c) => ss + (unreadCounts[c.id] || 0), 0);
-    }, 0);
+    const studentsUnread  = studentChannels.reduce((s, c) => s + (unreadCounts[c.id] || 0), 0);
+    const peersUnread     = peerList.reduce((s, p) => s + unreadForUser(p.id), 0);
+    const sponsorsUnread  = sponsorList.reduce((s, sp) => s + unreadForUser(sp.id), 0);
+    const teachersUnread  = instructorList.reduce((s, ins) => s + unreadForUser(ins.id), 0);
 
     if (isInstructor) return [
-      { key: 'students',    icon: 'school-outline',    iconActive: 'school',    label: 'Students',   unread: studentsUnread },
-      { key: 'instructors', icon: 'people-outline',    iconActive: 'people',    label: 'Colleagues', unread: peersUnread },
-      { key: 'sponsors',    icon: 'heart-outline',     iconActive: 'heart',     label: 'Sponsors',   unread: sponsorsUnread },
+      { key: 'students',    icon: 'school-outline', iconActive: 'school', label: 'Students',   unread: studentsUnread },
+      { key: 'instructors', icon: 'people-outline', iconActive: 'people', label: 'Colleagues', unread: peersUnread },
+      { key: 'sponsors',    icon: 'heart-outline',  iconActive: 'heart',  label: 'Sponsors',   unread: sponsorsUnread },
     ];
     if (isStudent) return [
-      { key: 'teachers', icon: 'person-outline',  iconActive: 'person',  label: 'Teachers', unread: teachersUnread },
-      { key: 'sponsors', icon: 'heart-outline',   iconActive: 'heart',   label: 'Sponsors', unread: sponsorsUnread },
+      { key: 'teachers', icon: 'person-outline', iconActive: 'person', label: 'Teachers', unread: teachersUnread },
+      { key: 'sponsors', icon: 'heart-outline',  iconActive: 'heart',  label: 'Sponsors', unread: sponsorsUnread },
     ];
     // sponsor
     return [
       { key: 'students', icon: 'school-outline', iconActive: 'school', label: 'My Students', unread: studentsUnread },
-      { key: 'teachers', icon: 'people-outline', iconActive: 'people', label: 'Teachers',    unread: peersUnread },
+      { key: 'teachers', icon: 'people-outline', iconActive: 'people', label: 'Teachers',    unread: teachersUnread },
     ];
   })();
 
@@ -406,12 +409,12 @@ const ChatScreen = ({ navigation }) => {
       if (activeTab === 'instructors') {
         if (peerList.length === 0) return <EmptyState icon="people-outline" text="No colleagues found" />;
         return peerList.map(item => {
-          const chId = Object.entries(channelMapRef.current).find(([, uid]) => uid === item.id)?.[0];
+          const unread = unreadForUser(item.id);
           return (
             <ContactRow key={item.id} person={item}
               label={item.role === 'superadmin' ? 'Admin' : 'Instructor'}
               isSelected={selectedContact?.id === item.id}
-              unread={chId ? (unreadCounts[chId] || 0) : 0}
+              unread={unread}
               onPress={() => handleSelectPeer(item)}
             />
           );
@@ -420,11 +423,11 @@ const ChatScreen = ({ navigation }) => {
       if (activeTab === 'sponsors') {
         if (sponsorList.length === 0) return <EmptyState icon="heart-outline" text="No sponsors yet" />;
         return sponsorList.map(item => {
-          const chId = Object.entries(channelMapRef.current).find(([, uid]) => uid === item.id)?.[0];
+          const unread = unreadForUser(item.id);
           return (
             <ContactRow key={item.id} person={item} label="Sponsor"
               isSelected={selectedContact?.id === item.id}
-              unread={chId ? (unreadCounts[chId] || 0) : 0}
+              unread={unread}
               onPress={() => handleSelectSponsor(item)}
             />
           );
@@ -451,11 +454,11 @@ const ChatScreen = ({ navigation }) => {
       if (activeTab === 'sponsors') {
         if (sponsorList.length === 0) return <EmptyState icon="heart-outline" text="No sponsors yet" sub="Wait for a sponsor to support you." />;
         return sponsorList.map(item => {
-          const chId = Object.entries(channelMapRef.current).find(([, uid]) => uid === item.id)?.[0];
+          const unread = unreadForUser(item.id);
           return (
             <ContactRow key={item.id} person={item} label="My Sponsor"
               isSelected={selectedContact?.id === item.id}
-              unread={chId ? (unreadCounts[chId] || 0) : 0}
+              unread={unread}
               onPress={() => handleSelectSponsor(item)}
             />
           );
@@ -678,7 +681,7 @@ const ChatScreen = ({ navigation }) => {
             </View>
           ) : (
             messages.map(item => {
-              const isMe = item.senderId === user.id;
+              const isMe = item.senderId === user?.id;
               return (
                 <View key={item.id?.toString()} style={[styles.msgRow, isMe ? styles.msgRowMe : styles.msgRowOther]}>
                   {!isMe && (

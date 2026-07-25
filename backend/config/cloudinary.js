@@ -8,19 +8,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// General storage for uploads (PDFs, images, materials)
+// General storage for uploads (PDFs, images, videos, materials)
+// resource_type:'auto' lets Cloudinary detect the correct type for every file format
 const generalStorage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
-    const isPdf = file.mimetype === 'application/pdf';
     const ext = path.extname(file.originalname);
     const nameWithoutExt = path.basename(file.originalname, ext);
-    const uniqueName = `${Date.now()}-${nameWithoutExt}${ext}`;
+    const uniqueName = `${Date.now()}-${nameWithoutExt}`;
     return {
       folder: 'gazarise/uploads',
-      resource_type: isPdf ? 'raw' : 'image',
-      public_id: isPdf ? uniqueName : undefined,
-      allowed_formats: ['pdf', 'jpg', 'jpeg', 'png'],
+      resource_type: 'auto',
+      public_id: uniqueName,
     };
   },
 });

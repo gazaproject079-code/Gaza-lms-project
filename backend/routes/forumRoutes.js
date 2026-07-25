@@ -9,6 +9,7 @@ const {
   getDirectChannels,
   getPeersForInstructor,
   getSponsorsForAdmin,
+  markChannelRead,
 } = require('../controllers/forumController');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
@@ -22,6 +23,9 @@ router.post('/channels', authenticateToken, requireAdmin, createChannel);
 
 // GET messages for a channel
 router.get('/channels/:channelId/messages', authenticateToken, getMessages);
+
+// POST mark a channel as read (clears unread count for this user)
+router.post('/channels/:channelId/read', authenticateToken, markChannelRead);
 
 // POST get or create direct message channel
 router.post('/channels/direct', authenticateToken, getOrCreateDirectChannel);
