@@ -863,7 +863,7 @@ exports.googleAuth = async (req, res) => {
 
       // Send welcome email
       try {
-        await sendWelcomeEmail(email, user.name);
+        await sendWelcomeEmail(email, user.name, assignedRole);
       } catch (emailError) {
         console.error('Failed to send welcome email:', emailError);
       }
