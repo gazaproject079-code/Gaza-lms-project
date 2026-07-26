@@ -68,7 +68,8 @@ const SignupDetailsScreen = ({ route, navigation }) => {
   const params = route?.params || {};
   const email  = params.email || '';
   const name   = params.name  || '';
-  const presetRole = params.role || 'student';
+  const role       = params.role      || 'student';
+  const isWarZone  = params.isWarZone || false;
   const { completeRegistration, isLoading } = useAuth();
   const { isDark } = useTheme();
   const C = getColors(isDark);
@@ -78,8 +79,6 @@ const SignupDetailsScreen = ({ route, navigation }) => {
   const [confirmPw, setConfirmPw]       = useState('');
   const [phone, setPhone]               = useState('');
   const [location, setLocation]         = useState('');
-  const [isWarZone, setIsWarZone]       = useState(false);
-  const [role, setRole]                 = useState(presetRole);
   const [showPw, setShowPw]             = useState(false);
   const [error, setError]               = useState('');
 
@@ -153,38 +152,6 @@ const SignupDetailsScreen = ({ route, navigation }) => {
             <AuthInput C={C} icon="location-outline" placeholder="Country / Location" value={location}
               onChangeText={setLocation} autoCapitalize="words" />
 
-            {/* Role Selection */}
-            <View style={{ flexDirection: 'row', gap: 10, marginBottom: 14 }}>
-              <TouchableOpacity
-                style={[s.roleBtn, role === 'student' && { borderColor: GREEN, backgroundColor: GREEN + '10' }]}
-                onPress={() => setRole('student')}
-              >
-                <Icon name="school-outline" size={16} color={role === 'student' ? GREEN : C.textSecondary} />
-                <Text style={{ color: role === 'student' ? GREEN : C.textSecondary, fontSize: 13, fontWeight: '600' }}>Student</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[s.roleBtn, role === 'sponsor' && { borderColor: GREEN, backgroundColor: GREEN + '10' }]}
-                onPress={() => setRole('sponsor')}
-              >
-                <Icon name="heart-outline" size={16} color={role === 'sponsor' ? GREEN : C.textSecondary} />
-                <Text style={{ color: role === 'sponsor' ? GREEN : C.textSecondary, fontSize: 13, fontWeight: '600' }}>Sponsor</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* War Zone Checkbox (Only for students) */}
-            {role === 'student' && (
-              <TouchableOpacity
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14, paddingHorizontal: 4 }}
-                onPress={() => setIsWarZone(!isWarZone)}
-                activeOpacity={0.8}
-              >
-                <View style={[s.checkbox, isWarZone && { backgroundColor: GREEN, borderColor: GREEN }]}>
-                  {isWarZone && <Icon name="checkmark" size={12} color="#FFFFFF" />}
-                </View>
-                <Text style={{ color: C.textSecondary, fontSize: 13, flex: 1 }}>I am currently located in a war zone (Access free education)</Text>
-              </TouchableOpacity>
-            )}
-
             <AuthInput C={C} icon="lock-closed-outline" placeholder="Create password (min 6 characters)" value={password}
               onChangeText={t => { setPassword(t); setError(''); }} secureTextEntry={!showPw}
               right={
@@ -239,7 +206,7 @@ const s = StyleSheet.create({
   successText: { color: '#10B981', fontSize: 13, fontWeight: '700' },
   errorBox: { flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 10, borderWidth: 1, padding: 12, marginBottom: 14 },
   errorText: { flex: 1, color: '#EF4444', fontSize: 13 },
-  primaryBtn: { height: 52, borderRadius: 12, backgroundColor: GREEN, borderWidth: 1, borderColor: '#E77828', justifyContent: 'center', alignItems: 'center', shadowColor: '#C96A24', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.16, shadowRadius: 6, elevation: 3 },
+  primaryBtn: { height: 52, borderRadius: 12, backgroundColor: GREEN, borderWidth: 1, borderColor: '#005C2E', justifyContent: 'center', alignItems: 'center', shadowColor: '#003D1F', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.16, shadowRadius: 6, elevation: 3 },
   primaryBtnText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800', letterSpacing: 0.12 },
   terms: { fontSize: 11, textAlign: 'center', lineHeight: 18, marginTop: 18 },
   roleBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(150,150,150,0.2)' },

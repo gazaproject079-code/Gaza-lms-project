@@ -33,10 +33,11 @@ const getColors = (isDark) => ({
 });
 
 const SignupOTPScreen = ({ route, navigation }) => {
-  const params = route?.params || {};
-  const email  = params.email || '';
-  const name   = params.name  || '';
-  const role   = params.role  || 'student';
+  const params     = route?.params || {};
+  const email      = params.email      || '';
+  const name       = params.name       || '';
+  const role       = params.role       || 'student';
+  const isWarZone  = params.isWarZone  || false;
   const { verifyOTP, resendOTP, isLoading } = useAuth();
   const { isDark } = useTheme();
   const C = getColors(isDark);
@@ -78,7 +79,7 @@ const SignupOTPScreen = ({ route, navigation }) => {
       const result = await verifyOTP(email, code);
       setVerifying(false);
       if (result.success) {
-        navigation.replace('SignupDetails', { email, name, role });
+        navigation.replace('SignupDetails', { email, name, role, isWarZone });
       } else {
         setError(result.error || 'Invalid verification code');
       }

@@ -79,6 +79,7 @@ const SignupScreen = ({ navigation }) => {
   const [name, setName]             = useState('');
   const [email, setEmail]           = useState('');
   const [role, setRole]             = useState('student');
+  const [isWarZone, setIsWarZone]   = useState(false);
   const [error, setError]           = useState('');
   const [sendingOTP, setSendingOTP] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -97,7 +98,7 @@ const SignupScreen = ({ navigation }) => {
       const result = await sendOTP(email.trim().toLowerCase(), name.trim());
       setSendingOTP(false);
       if (result.success) {
-        navigation.navigate('SignupOTP', { email: email.trim().toLowerCase(), name: name.trim(), role });
+        navigation.navigate('SignupOTP', { email: email.trim().toLowerCase(), name: name.trim(), role, isWarZone });
       } else {
         setError(result.error || 'Failed to send verification code');
       }
@@ -154,7 +155,7 @@ const SignupScreen = ({ navigation }) => {
               </View>
             )}
 
-            {/* Role Selection — shown upfront so users know they can sign up as sponsor */}
+            {/* Role Selection */}
             <Text style={{ color: C.textSecondary, fontSize: 12, fontWeight: '600', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.8 }}>I am a…</Text>
             <View style={{ flexDirection: 'row', gap: 10, marginBottom: 18 }}>
               <TouchableOpacity
@@ -170,7 +171,7 @@ const SignupScreen = ({ navigation }) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[s.roleBtn, { borderColor: role === 'sponsor' ? '#007A3D' : 'rgba(150,150,150,0.2)', backgroundColor: role === 'sponsor' ? '#007A3D10' : 'transparent' }]}
-                onPress={() => setRole('sponsor')}
+                onPress={() => { setRole('sponsor'); setIsWarZone(false); }}
                 activeOpacity={0.8}
               >
                 <Icon name="heart-outline" size={18} color={role === 'sponsor' ? '#007A3D' : C.textSecondary} />
@@ -185,6 +186,19 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={t => { setName(t); setError(''); }} autoCapitalize="words" />
             <AuthInput C={C} icon="mail-outline" placeholder="Email address" value={email}
               onChangeText={t => { setEmail(t); setError(''); }} keyboardType="email-address" />
+
+            {role === 'student' && (
+              <TouchableOpacity
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 18, paddingHorizontal: 4 }}
+                onPress={() => setIsWarZone(!isWarZone)}
+                activeOpacity={0.8}
+              >
+                <View style={[s.checkbox, isWarZone && { backgroundColor: '#007A3D', borderColor: '#007A3D' }]}>
+                  {isWarZone && <Icon name="checkmark" size={12} color="#FFFFFF" />}
+                </View>
+                <Text style={{ color: C.textSecondary, fontSize: 13, flex: 1 }}>I am currently located in a war zone (Access free education)</Text>
+              </TouchableOpacity>
+            )}
 
             <TouchableOpacity style={[s.primaryBtn, { backgroundColor: C.accent, borderColor: C.highlight, shadowColor: C.accent }]} onPress={handleSendOTP} disabled={sendingOTP} activeOpacity={0.85}>
               {sendingOTP ? <ActivityIndicator color="#FFFFFF" /> : <Text style={s.primaryBtnText}>Continue</Text>}
@@ -252,6 +266,7 @@ const s = StyleSheet.create({
   footerLink: { fontSize: 14, fontWeight: '700', letterSpacing: 0.1 },
   terms: { fontSize: 11, textAlign: 'center', lineHeight: 18, marginTop: 16 },
   roleBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12, paddingHorizontal: 14, borderRadius: 12, borderWidth: 1.5 },
+  checkbox: { width: 18, height: 18, borderRadius: 4, borderWidth: 1.5, borderColor: 'rgba(150,150,150,0.4)', justifyContent: 'center', alignItems: 'center' },
 });
 
 export default SignupScreen;
