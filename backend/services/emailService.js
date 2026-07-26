@@ -239,8 +239,10 @@ const sendOTPEmail = async (email, otp, name = 'User') => {
 };
 
 // ── Send Welcome Email ────────────────────────────────────────────────────────
-const sendWelcomeEmail = async (email, name) => {
-  const content = `
+const sendWelcomeEmail = async (email, name, role = 'student') => {
+  const isSponsor = role === 'sponsor';
+
+  const studentContent = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
       <tr>
         <td>
@@ -278,12 +280,56 @@ const sendWelcomeEmail = async (email, name) => {
     </table>
   `;
 
+  const sponsorContent = `
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>
+          <p style="color:${BRAND.textDark};margin:0 0 6px 0;font-size:18px;font-weight:700;">Welcome, ${name}! 🤝</p>
+          <p style="color:${BRAND.textLight};margin:0 0 28px 0;font-size:15px;line-height:1.6;">Thank you for joining GazaRise as a <strong style="color:${BRAND.green};">Sponsor</strong>. Your support helps students in Gaza access quality education when they need it most.</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-bottom:28px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:${BRAND.bgSection};border-radius:16px;border:1px solid ${BRAND.border};overflow:hidden;">
+            <tr>
+              <td style="padding:6px 0;background:linear-gradient(135deg,${BRAND.navy},${BRAND.navyLight});"></td>
+            </tr>
+            <tr>
+              <td style="padding:20px 24px;">
+                <p style="margin:0 0 14px 0;font-size:13px;color:${BRAND.textMid};font-weight:700;text-transform:uppercase;letter-spacing:0.8px;">As a sponsor you can</p>
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr><td style="padding:7px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#10003;</span>Support students with sponsored access to courses</td></tr>
+                  <tr><td style="padding:7px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#10003;</span>Track your sponsored students' progress</td></tr>
+                  <tr><td style="padding:7px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#10003;</span>Communicate securely with students and instructors</td></tr>
+                  <tr><td style="padding:7px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#10003;</span>Make a real difference in lives affected by conflict</td></tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <div style="display:inline-block;background:linear-gradient(135deg,${BRAND.red},${BRAND.redLight});border-radius:50px;padding:13px 32px;">
+            <span style="color:#FFFFFF;font-size:14px;font-weight:800;letter-spacing:0.3px;">Start supporting students! 🇵🇸</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  `;
+
   return await sendEmailWithBrevoAPI({
     to: email,
     toName: name,
-    subject: 'Welcome to GazaRise — Let\'s Start Learning!',
-    html: generateEmailTemplate({ title: 'Welcome to GazaRise!', subtitle: 'Your learning journey begins now', content }),
-    text: `Welcome ${name}!\n\nYour account has been created successfully.\n\nYou can now:\n- Browse and enroll in courses\n- Track your learning progress\n- Earn certificates upon completion\n- Chat with your AI learning assistant\n\nStart exploring today!\n\nGazaRise`
+    subject: isSponsor ? 'Welcome to GazaRise — Thank You for Your Support!' : 'Welcome to GazaRise — Let\'s Start Learning!',
+    html: generateEmailTemplate({
+      title: isSponsor ? 'Welcome, Sponsor!' : 'Welcome to GazaRise!',
+      subtitle: isSponsor ? 'Your generosity changes lives' : 'Your learning journey begins now',
+      content: isSponsor ? sponsorContent : studentContent,
+    }),
+    text: isSponsor
+      ? `Welcome ${name}!\n\nThank you for joining GazaRise as a Sponsor.\n\nYou can now:\n- Support students with sponsored access\n- Track your students' progress\n- Communicate with students and instructors\n\nStart supporting today!\n\nGazaRise`
+      : `Welcome ${name}!\n\nYour account has been created successfully.\n\nYou can now:\n- Browse and enroll in courses\n- Track your learning progress\n- Earn certificates upon completion\n- Chat with your AI learning assistant\n\nStart exploring today!\n\nGazaRise`
   });
 };
 

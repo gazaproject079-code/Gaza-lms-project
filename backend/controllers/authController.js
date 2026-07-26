@@ -421,7 +421,7 @@ exports.completeRegistration = async (req, res) => {
 
     // Send welcome email
     try {
-      await sendWelcomeEmail(email, user.name);
+      await sendWelcomeEmail(email, user.name, role || user.role);
     } catch (emailError) {
       console.error('Failed to send welcome email:', emailError);
     }
