@@ -7,32 +7,31 @@ console.log('   Using: Brevo HTTP API (not SMTP)');
 // Brevo API endpoint
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
-// ── Brand colors (matches app theme) ─────────────────────────────────────────
+// ── Brand colors (Palestine theme) ───────────────────────────────────────────
 const BRAND = {
-  navy:        '#1A1A2E',
-  navyMid:     '#1E1E38',
-  navyLight:   '#252540',
-  orange:      '#FF8C42',
-  orangeLight: '#F5A53A',
-  orangePale:  '#FFF4EC',
-  orangeBorder:'#FFD4A8',
-  purple:      '#7C6FCD',
-  purplePale:  '#EEF0FF',
-  purpleBorder:'#C7CAFE',
-  green:       '#10B981',
-  greenPale:   '#D1FAE5',
-  red:         '#EF4444',
-  redPale:     '#FEE2E2',
+  navy:        '#0F1923',
+  navyMid:     '#162032',
+  navyLight:   '#1C2D40',
+  green:       '#007A3D',
+  greenLight:  '#009A4E',
+  greenPale:   '#E6F4ED',
+  greenBorder: '#A8D5BC',
+  red:         '#CE1126',
+  redLight:    '#E5192E',
+  redPale:     '#FDEAEC',
+  redBorder:   '#F0A0A8',
+  white:       '#FFFFFF',
+  black:       '#0A0A0A',
   amber:       '#F59E0B',
   amberPale:   '#FEF3C7',
-  textDark:    '#1A1A2E',
-  textMid:     '#475569',
-  textLight:   '#64748B',
-  textMuted:   '#94A3B8',
-  bgPage:      '#F0F2F8',
+  textDark:    '#0F1923',
+  textMid:     '#2D4052',
+  textLight:   '#4A6070',
+  textMuted:   '#7A9AAF',
+  bgPage:      '#F0F4F0',
   bgCard:      '#FFFFFF',
-  bgSection:   '#F8FAFC',
-  border:      '#E2E8F0',
+  bgSection:   '#F5F8F5',
+  border:      '#D4E4D4',
 };
 
 // Send email using Brevo HTTP API
@@ -92,20 +91,20 @@ const sendEmailWithBrevoAPI = async (emailData) => {
   }
 };
 
-// ── Shared logo block (text-based, reliable across all email clients) ─────────
+// ── Shared logo block ─────────────────────────────────────────────────────────
 const logoBlock = `
   <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto 20px auto;">
     <tr>
-      <td style="background: rgba(255,255,255,0.12); border-radius: 14px; padding: 10px 22px; border: 1.5px solid rgba(255,255,255,0.2);">
-        <span style="font-size: 11px; font-weight: 800; letter-spacing: 3px; color: rgba(255,255,255,0.55); text-transform: uppercase; display: block; text-align: center; margin-bottom: 2px;">✦ PLATFORM ✦</span>
-        <span style="font-size: 26px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.5px;">Gaza</span><span style="font-size: 26px; font-weight: 900; color: ${BRAND.orange}; letter-spacing: -0.5px;">Rise</span>
+      <td style="background: rgba(255,255,255,0.1); border-radius: 14px; padding: 10px 28px; border: 1.5px solid rgba(255,255,255,0.18);">
+        <span style="font-size: 11px; font-weight: 800; letter-spacing: 3px; color: rgba(255,255,255,0.5); text-transform: uppercase; display: block; text-align: center; margin-bottom: 4px;">🇵🇸 GAZARISE</span>
+        <span style="font-size: 26px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.5px;">Gaza</span><span style="font-size: 26px; font-weight: 900; color: ${BRAND.green}; letter-spacing: -0.5px;">Rise</span>
       </td>
     </tr>
   </table>
 `;
 
 // ── Master email template ─────────────────────────────────────────────────────
-const generateEmailTemplate = ({ title, subtitle, content, accentColor = BRAND.orange }) => {
+const generateEmailTemplate = ({ title, subtitle, content, accentColor = BRAND.green }) => {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -121,19 +120,32 @@ const generateEmailTemplate = ({ title, subtitle, content, accentColor = BRAND.o
     <tr>
       <td align="center" style="padding:40px 16px;">
 
-        <!-- Main Card -->
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background-color:${BRAND.bgCard};border-radius:22px;overflow:hidden;box-shadow:0 12px 48px rgba(26,26,46,0.14);">
-
-          <!-- Header — navy gradient -->
+        <!-- Palestine flag stripe at top -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;margin-bottom:0;">
           <tr>
-            <td style="background:linear-gradient(135deg,${BRAND.navy} 0%,${BRAND.navyLight} 60%,${BRAND.navyMid} 100%);padding:36px 32px 32px;text-align:center;position:relative;">
-              <!-- Decorative top stripe -->
-              <div style="background:${BRAND.orange};height:3px;border-radius:2px;width:60px;margin:0 auto 24px auto;"></div>
+            <td style="background:${BRAND.black};height:5px;border-radius:6px 6px 0 0;"></td>
+          </tr>
+          <tr>
+            <td style="background:#FFFFFF;height:5px;"></td>
+          </tr>
+          <tr>
+            <td style="background:${BRAND.green};height:5px;"></td>
+          </tr>
+        </table>
+
+        <!-- Main Card -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background-color:${BRAND.bgCard};border-radius:0 0 22px 22px;overflow:hidden;box-shadow:0 12px 48px rgba(15,25,35,0.15);">
+
+          <!-- Header — dark navy with red triangle accent -->
+          <tr>
+            <td style="background:linear-gradient(135deg,${BRAND.navy} 0%,${BRAND.navyMid} 50%,${BRAND.navyLight} 100%);padding:36px 32px 32px;text-align:center;">
+              <!-- Red accent bar -->
+              <div style="background:linear-gradient(90deg,${BRAND.red},${BRAND.redLight});height:3px;border-radius:2px;width:60px;margin:0 auto 24px auto;"></div>
               ${logoBlock}
               <h1 style="color:#FFFFFF;margin:0 0 6px 0;font-size:22px;font-weight:800;letter-spacing:-0.3px;line-height:1.3;">${title}</h1>
-              ${subtitle ? `<p style="color:rgba(255,255,255,0.7);margin:0;font-size:13px;font-weight:500;letter-spacing:0.2px;">${subtitle}</p>` : ''}
-              <!-- Bottom accent line -->
-              <div style="background:linear-gradient(90deg,transparent,${BRAND.orange},transparent);height:1px;margin-top:24px;"></div>
+              ${subtitle ? `<p style="color:rgba(255,255,255,0.65);margin:0;font-size:13px;font-weight:500;letter-spacing:0.2px;">${subtitle}</p>` : ''}
+              <!-- Green bottom line -->
+              <div style="background:linear-gradient(90deg,transparent,${BRAND.green},transparent);height:1px;margin-top:24px;"></div>
             </td>
           </tr>
 
@@ -146,16 +158,16 @@ const generateEmailTemplate = ({ title, subtitle, content, accentColor = BRAND.o
 
           <!-- Footer -->
           <tr>
-            <td style="background:linear-gradient(180deg,${BRAND.bgSection} 0%,#EEF0F6 100%);padding:24px 32px;text-align:center;border-top:1px solid ${BRAND.border};">
+            <td style="background:${BRAND.bgSection};padding:24px 32px;text-align:center;border-top:2px solid ${BRAND.greenBorder};">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="padding-bottom:10px;">
-                    <span style="font-size:17px;font-weight:900;color:${BRAND.navy};">Gaza</span><span style="font-size:17px;font-weight:900;color:${BRAND.orange};">Rise</span>
+                  <td align="center" style="padding-bottom:8px;">
+                    <span style="font-size:17px;font-weight:900;color:${BRAND.navy};">Gaza</span><span style="font-size:17px;font-weight:900;color:${BRAND.green};">Rise</span>
                   </td>
                 </tr>
                 <tr>
                   <td align="center">
-                    <p style="color:${BRAND.textLight};margin:0;font-size:12px;line-height:1.5;">Learn Today, Rise Tomorrow</p>
+                    <p style="color:${BRAND.textLight};margin:0;font-size:12px;line-height:1.5;">Learn Today, Rise Tomorrow 🇵🇸</p>
                     <p style="color:${BRAND.textMuted};margin:10px 0 0 0;font-size:11px;">&copy; ${new Date().getFullYear()} GazaRise. All rights reserved.</p>
                   </td>
                 </tr>
@@ -185,11 +197,11 @@ const sendOTPEmail = async (email, otp, name = 'User') => {
       </tr>
       <tr>
         <td align="center" style="padding:0 0 28px 0;">
-          <!-- OTP Box — orange brand -->
-          <table role="presentation" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,${BRAND.orangePale} 0%,#FFE8D0 100%);border-radius:18px;border:2px solid ${BRAND.orangeBorder};">
+          <!-- OTP Box — Palestine green -->
+          <table role="presentation" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,${BRAND.greenPale} 0%,#D0EDD8 100%);border-radius:18px;border:2px solid ${BRAND.greenBorder};">
             <tr>
               <td style="padding:22px 44px;text-align:center;">
-                <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;letter-spacing:2.5px;color:${BRAND.orange};text-transform:uppercase;">Your Code</p>
+                <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;letter-spacing:2.5px;color:${BRAND.green};text-transform:uppercase;">Your Code</p>
                 <span style="font-size:40px;font-weight:900;letter-spacing:12px;color:${BRAND.navy};font-family:'SF Mono',Monaco,'Courier New',monospace;">${otp}</span>
               </td>
             </tr>
@@ -258,7 +270,7 @@ const sendWelcomeEmail = async (email, name) => {
       </tr>
       <tr>
         <td align="center">
-          <div style="display:inline-block;background:linear-gradient(135deg,${BRAND.orange},${BRAND.orangeLight});border-radius:50px;padding:13px 32px;">
+          <div style="display:inline-block;background:linear-gradient(135deg,${BRAND.red},${BRAND.redLight});border-radius:50px;padding:13px 32px;">
             <span style="color:#FFFFFF;font-size:14px;font-weight:800;letter-spacing:0.3px;">Start exploring courses today! →</span>
           </div>
         </td>
@@ -278,7 +290,7 @@ const sendWelcomeEmail = async (email, name) => {
 // ── Send Admin Account Created Email ─────────────────────────────────────────
 const sendAdminAccountCreatedEmail = async (email, name, password, role) => {
   const roleDisplay = role.charAt(0).toUpperCase() + role.slice(1);
-  const roleColor = role === 'expert' ? BRAND.purple : BRAND.orange;
+  const roleColor = role === 'superadmin' ? BRAND.red : BRAND.green;
 
   const content = `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
@@ -294,7 +306,7 @@ const sendAdminAccountCreatedEmail = async (email, name, password, role) => {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-radius:16px;overflow:hidden;border:1.5px solid ${BRAND.navyLight};">
             <tr>
               <td style="background:linear-gradient(135deg,${BRAND.navy},${BRAND.navyLight});padding:12px 20px;">
-                <p style="margin:0;font-size:10px;color:${BRAND.orange};font-weight:800;text-transform:uppercase;letter-spacing:2px;">&#128274; Your Login Credentials</p>
+                <p style="margin:0;font-size:10px;color:${BRAND.green};font-weight:800;text-transform:uppercase;letter-spacing:2px;">&#128274; Your Login Credentials</p>
               </td>
             </tr>
             <tr>
@@ -357,14 +369,20 @@ const sendCertificateEmail = async (email, studentName, courseName, certificateN
       </tr>
       <tr>
         <td align="center" style="padding-bottom:28px;">
-          <!-- Course name spotlight — orange/navy -->
+          <!-- Course name spotlight — Palestine theme -->
           <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;background:linear-gradient(135deg,${BRAND.navy} 0%,${BRAND.navyLight} 100%);border-radius:18px;overflow:hidden;">
             <tr>
-              <td style="padding:4px 0;background:linear-gradient(90deg,${BRAND.orange},${BRAND.orangeLight},${BRAND.orange});"></td>
+              <td style="height:5px;background:${BRAND.black};"></td>
+            </tr>
+            <tr>
+              <td style="height:5px;background:#FFFFFF;"></td>
+            </tr>
+            <tr>
+              <td style="height:5px;background:${BRAND.green};"></td>
             </tr>
             <tr>
               <td style="padding:24px;text-align:center;">
-                <p style="margin:0 0 6px 0;font-size:10px;color:${BRAND.orange};font-weight:800;text-transform:uppercase;letter-spacing:2.5px;">&#127942; Course Completed</p>
+                <p style="margin:0 0 6px 0;font-size:10px;color:${BRAND.green};font-weight:800;text-transform:uppercase;letter-spacing:2.5px;">&#127942; Course Completed</p>
                 <h2 style="margin:10px 0 0 0;font-size:19px;font-weight:800;color:#FFFFFF;line-height:1.4;">${courseName}</h2>
               </td>
             </tr>
@@ -391,7 +409,7 @@ const sendCertificateEmail = async (email, studentName, courseName, certificateN
       </tr>
       <tr>
         <td align="center">
-          <div style="display:inline-block;background:linear-gradient(135deg,${BRAND.green},#059669);border-radius:50px;padding:12px 28px;">
+          <div style="display:inline-block;background:linear-gradient(135deg,${BRAND.red},${BRAND.redLight});border-radius:50px;padding:12px 28px;">
             <span style="color:#FFFFFF;font-size:14px;font-weight:800;">Keep up the great work! &#127942;</span>
           </div>
         </td>
@@ -416,7 +434,7 @@ const sendSuperAdminWelcomeEmail = async (email, name, password) => {
       <tr>
         <td>
           <p style="color:${BRAND.textDark};margin:0 0 6px 0;font-size:18px;font-weight:700;">Welcome, ${name}!</p>
-          <p style="color:${BRAND.textLight};margin:0 0 28px 0;font-size:15px;line-height:1.6;">Your <strong style="color:${BRAND.orange};">Super Admin</strong> account has been created with full system access.</p>
+          <p style="color:${BRAND.textLight};margin:0 0 28px 0;font-size:15px;line-height:1.6;">Your <strong style="color:${BRAND.green};">Super Admin</strong> account has been created with full system access.</p>
         </td>
       </tr>
       <tr>
@@ -425,7 +443,7 @@ const sendSuperAdminWelcomeEmail = async (email, name, password) => {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-radius:16px;overflow:hidden;border:1.5px solid ${BRAND.navyLight};">
             <tr>
               <td style="background:linear-gradient(135deg,${BRAND.navy},${BRAND.navyLight});padding:12px 20px;">
-                <p style="margin:0;font-size:10px;color:${BRAND.orange};font-weight:800;text-transform:uppercase;letter-spacing:2px;">&#128274; Your Login Credentials</p>
+                <p style="margin:0;font-size:10px;color:${BRAND.green};font-weight:800;text-transform:uppercase;letter-spacing:2px;">&#128274; Your Login Credentials</p>
               </td>
             </tr>
             <tr>
@@ -453,17 +471,17 @@ const sendSuperAdminWelcomeEmail = async (email, name, password) => {
         <td style="padding-bottom:24px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:${BRAND.bgSection};border-radius:14px;border:1px solid ${BRAND.border};overflow:hidden;">
             <tr>
-              <td style="padding:14px 20px;background:${BRAND.orangePale};border-bottom:1px solid ${BRAND.orangeBorder};">
-                <p style="margin:0;font-size:12px;color:${BRAND.orange};font-weight:800;text-transform:uppercase;letter-spacing:1px;">&#9733; Your Super Admin Permissions</p>
+              <td style="padding:14px 20px;background:${BRAND.greenPale};border-bottom:1px solid ${BRAND.greenBorder};">
+                <p style="margin:0;font-size:12px;color:${BRAND.green};font-weight:800;text-transform:uppercase;letter-spacing:1px;">&#9733; Your Super Admin Permissions</p>
               </td>
             </tr>
             <tr>
               <td style="padding:16px 20px;">
                 <table role="presentation" cellpadding="0" cellspacing="0">
-                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.orange};margin-right:10px;font-weight:700;">&#9670;</span>Manage all users, admins &amp; experts</td></tr>
-                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.orange};margin-right:10px;font-weight:700;">&#9670;</span>Create and manage all courses</td></tr>
-                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.orange};margin-right:10px;font-weight:700;">&#9670;</span>Configure certificate templates</td></tr>
-                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.orange};margin-right:10px;font-weight:700;">&#9670;</span>View analytics and system reports</td></tr>
+                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#9670;</span>Manage all users, admins &amp; experts</td></tr>
+                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#9670;</span>Create and manage all courses</td></tr>
+                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#9670;</span>Configure certificate templates</td></tr>
+                  <tr><td style="padding:6px 0;color:${BRAND.textLight};font-size:14px;"><span style="color:${BRAND.green};margin-right:10px;font-weight:700;">&#9670;</span>View analytics and system reports</td></tr>
                 </table>
               </td>
             </tr>
@@ -514,11 +532,11 @@ const sendReminderEmail = async (email, name, reminderText, scheduledAt) => {
         <td align="center" style="padding-bottom:28px;">
           <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;background:linear-gradient(135deg,${BRAND.navy} 0%,${BRAND.navyLight} 100%);border-radius:18px;overflow:hidden;">
             <tr>
-              <td style="padding:4px 0;background:linear-gradient(90deg,${BRAND.orange},${BRAND.orangeLight},${BRAND.orange});"></td>
+              <td style="padding:4px 0;background:linear-gradient(90deg,${BRAND.green},${BRAND.greenLight},${BRAND.green});"></td>
             </tr>
             <tr>
               <td style="padding:24px;text-align:center;">
-                <p style="margin:0 0 8px 0;font-size:10px;color:${BRAND.orange};font-weight:800;text-transform:uppercase;letter-spacing:2.5px;">&#8987; Your Reminder</p>
+                <p style="margin:0 0 8px 0;font-size:10px;color:${BRAND.green};font-weight:800;text-transform:uppercase;letter-spacing:2.5px;">&#8987; Your Reminder</p>
                 <h2 style="margin:0;font-size:18px;font-weight:800;color:#FFFFFF;line-height:1.4;">${reminderText}</h2>
               </td>
             </tr>

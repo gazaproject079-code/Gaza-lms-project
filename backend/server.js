@@ -196,7 +196,7 @@ app.use((req, res) => {
 async function startServer() {
   try {
     await testConnection();
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ alter: false });
     console.log('Database synced successfully');
   } catch (error) {
     console.error('Failed to connect to database:', error);
